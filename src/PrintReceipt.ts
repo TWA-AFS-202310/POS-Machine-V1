@@ -54,7 +54,7 @@ function generateReceiptItems(tags: Tag[]): ReceiptItem[] {
 
     for (let receiptItem of receiptItems) {
       if (name === receiptItem.name) {
-        receiptItem.quantity.value += 1;
+        receiptItem.quantity.value += tag.quntity;
         existInReceiptItems = 1;
 
         break;
@@ -64,7 +64,7 @@ function generateReceiptItems(tags: Tag[]): ReceiptItem[] {
     if (existInReceiptItems === 0) {
       receiptItems.push({
         name: name,
-        quantity: { value: 1, quntifier: unit },
+        quantity: { value: tag.quntity, quntifier: unit },
         unitPrice: unitPrice,
         subtotal: subtotal,
         discountedPrice: discountedPrice,
@@ -99,7 +99,7 @@ function calculateDiscountedSubtotal(
   promotionType: string | undefined
 ): number {
   if (promotionType === "BUY_TWO_GET_ONE_FREE") {
-    quantity = quantity - Math.floor(quantity / 2);
+    quantity = quantity - Math.floor(quantity / 3);
   }
   return price * quantity;
 }
@@ -110,11 +110,19 @@ function renderReceipt(receiptItems: ReceiptItem[]): string {
   let discountedPrice: number = 0;
 
   for (let receiptItem of receiptItems) {
-    receipt += `Name：${receiptItem.name}，Quantity：${receiptItem.quantity.value} ${receiptItem.quantity.quntifier}，Unit：${receiptItem.unitPrice}(yuan)，Subtotal：${receiptItem.subtotal}(yuan)\n`;
+    receipt += `Name：${receiptItem.name}，Quantity：${
+      receiptItem.quantity.value
+    } ${receiptItem.quantity.quntifier}，Unit：${receiptItem.unitPrice.toFixed(
+      2
+    )}(yuan)，Subtotal：${receiptItem.subtotal.toFixed(2)}(yuan)\n`;
     subtotal += receiptItem.subtotal;
     discountedPrice += receiptItem.discountedPrice;
   }
-  receipt += `----------------------\nTotal：${subtotal}(yuan)\nDiscounted prices：${discountedPrice}(yuan)\n**********************`;
+  receipt += `----------------------\nTotal：${subtotal.toFixed(
+    2
+  )}(yuan)\nDiscounted prices：${discountedPrice.toFixed(
+    2
+  )}(yuan)\n**********************`;
 
   return receipt;
 }
