@@ -3,25 +3,25 @@ export function loadAllItems() {
     {
       barcode: "ITEM000000",
       name: "Coca-Cola",
-      unit: "bottles",
+      unit: "bottle",
       price: 3.0,
     },
     {
       barcode: "ITEM000001",
       name: "Sprite",
-      unit: "bottles",
+      unit: "bottle",
       price: 3.0,
     },
     {
       barcode: "ITEM000002",
       name: "Apple",
-      unit: "pounds",
+      unit: "pound",
       price: 5.5,
     },
     {
       barcode: "ITEM000003",
       name: "Litchi",
-      unit: "pounds",
+      unit: "pound",
       price: 15.0,
     },
     {
@@ -33,7 +33,7 @@ export function loadAllItems() {
     {
       barcode: "ITEM000005",
       name: "Instant Noodles",
-      unit: "bags",
+      unit: "bag",
       price: 4.5,
     },
   ];

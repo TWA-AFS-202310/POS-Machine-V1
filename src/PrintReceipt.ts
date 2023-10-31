@@ -112,7 +112,9 @@ function renderReceipt(receiptItems: ReceiptItem[]): string {
   for (let receiptItem of receiptItems) {
     receipt += `Name：${receiptItem.name}，Quantity：${
       receiptItem.quantity.value
-    } ${receiptItem.quantity.quntifier}，Unit：${receiptItem.unitPrice.toFixed(
+    } ${
+      receiptItem.quantity.quntifier + "s"
+    }，Unit：${receiptItem.unitPrice.toFixed(
       2
     )}(yuan)，Subtotal：${receiptItem.subtotal.toFixed(2)}(yuan)\n`;
     subtotal += receiptItem.subtotal;
