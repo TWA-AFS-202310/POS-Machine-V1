@@ -95,6 +95,21 @@ function mapBarcodeToItemName(tags:Tag[]){
 
 }
 
+function calculateDiscount(quantity:number, unitPrice:number):number{
+  const originalPrice:number = quantity * unitPrice
+  const priceAfterDiscounted:number = ((quantity / 3) * 2 + (quantity % 3)) * unitPrice
+  return originalPrice - priceAfterDiscounted
+}
+
+function getDiscountedItems( receiptItems:ReceiptItem[]):ReceiptItem[]{
+    const promotionList = getPromotionItems()
+    for(var item of receiptItems){
+      if(promotionList.indexOf(item.barcode) > -1){
+        item.discountedPrice = calculateDiscount(item.quantity,item.unitPrice)
+      }
+    }
+    return receiptItems
+}
 
 
 export function printReceipt(tags: string[]): string {
