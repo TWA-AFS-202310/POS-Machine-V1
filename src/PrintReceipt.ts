@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable eol-last */
 /* eslint-disable no-var */
@@ -97,7 +98,7 @@ function mapBarcodeToItemName(tags:Tag[]){
 
 function calculateDiscount(quantity:number, unitPrice:number):number{
   const originalPrice:number = quantity * unitPrice
-  const priceAfterDiscounted:number = ((quantity / 3) * 2 + (quantity % 3)) * unitPrice
+  const priceAfterDiscounted:number = (Math.floor(quantity / 3) * 2 + (quantity % 3)) * unitPrice
   return originalPrice - priceAfterDiscounted
 }
 
@@ -106,15 +107,40 @@ function getDiscountedItems( receiptItems:ReceiptItem[]):ReceiptItem[]{
     for(var item of receiptItems){
       if(promotionList.indexOf(item.barcode) > -1){
         item.discountedPrice = calculateDiscount(item.quantity,item.unitPrice)
+        item.subtotal = item.subtotal - item.discountedPrice
       }
     }
     return receiptItems
 }
 
+function generateItemDetails(receiptItems:ReceiptItem[]):string{
+   let itemDetail:string = ''
+   let totalDicount:number = 0
+   let total = 0
+  for(var item of receiptItems){
+    const oneInfo:string = "Name：" + item.name + "，" + "Quantity：" + item.quantity + " " + item.unit + "s，Unit：" + (item.unitPrice).toFixed(2) + "(yuan)，Subtotal：" + (item.subtotal).toFixed(2) + "(yuan)\n"
+    itemDetail += oneInfo
+    totalDicount += item.discountedPrice
+    total += item.subtotal
+  }
+  const header = "***<store earning no money>Receipt ***\n"
+  const dividerDash = "----------------------\n"
+  const dividerStar = "**********************"
+  const totalInfo = "Total：" + (total).toFixed(2) + "(yuan)\n"
+  const discountInfo = "Discounted prices：" + (totalDicount).toFixed(2) + "(yuan)\n"
+
+  return header + itemDetail+ dividerDash + totalInfo + discountInfo + dividerStar
+}
+
 
 export function printReceipt(tags: string[]): string {
+  const splittedTag = splitTags(tags)
+  const countedTags = aggregateTags(splittedTag)
+  const tagWithBarcode = mapBarcodeToItemName(countedTags)
+  const itemsAfterDiscounted = getDiscountedItems(tagWithBarcode)
+  return generateItemDetails(itemsAfterDiscounted)
 
-
+  /*
   return `***<store earning no money>Receipt ***
 Name：Sprite，Quantity：5 bottles，Unit：3.00(yuan)，Subtotal：12.00(yuan)
 Name：Litchi，Quantity：2.5 pounds，Unit：15.00(yuan)，Subtotal：37.50(yuan)
@@ -122,5 +148,5 @@ Name：Instant Noodles，Quantity：3 bags，Unit：4.50(yuan)，Subtotal：9.00
 ----------------------
 Total：58.50(yuan)
 Discounted prices：7.50(yuan)
-**********************`
+**********************`*/
 }
