@@ -12,7 +12,7 @@
 // }
 
 import {loadAllItems, loadPromotions} from './Dependencies'
-import {ReceiptItem,Quantity} from './receiptItem'
+import {ReceiptItem} from './receiptItem'
 import {Tag} from './tag'
 import {Item} from './item'
 
@@ -106,7 +106,6 @@ export class PosMachine{
   private renderReceipt(receiptItem: ReceiptItem[]): string {
     let receiptString = '***<store earning no money>Receipt ***\n'
     const allItem: Item[] = loadAllItems()
-
     receiptItem.forEach((item) => {
       const tagInfo = allItem.find((tag) => tag.name === item.name)
 
