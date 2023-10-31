@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable eol-last */
 /* eslint-disable no-var */
 /* eslint-disable indent */
@@ -10,8 +11,10 @@ interface Quantity{
 }
 
 interface ReceiptItem{
+  barcode:string;
   name:string;
-  quantity:Quantity;
+  quantity:number;
+  unit:string;
   unitPrice:number;
   subtotal:number;
   discountedPrice:number;
@@ -58,6 +61,39 @@ function aggregateTags(tagWithQuantity:Tag[]):Tag[]{
   return tagWithAggregatedQuantity
 }
 
+function getPromotionItems(){
+  const promotion = loadPromotions()
+  let promotionList:string[] = []
+  for(let i = 0; i < promotion.length; i++){
+    if(promotion[i].type === 'BUY_TWO_GET_ONE_FREE'){
+      promotionList = promotion[i].barcodes
+    }
+  }
+  return promotionList
+}
+
+function mapBarcodeToItemName(tags:Tag[]){
+  let receiptItems:ReceiptItem[] = []
+  const itemDetails = loadAllItems()
+  for(var tag of tags){
+    itemDetails.find(item=>{
+      if(item.barcode === tag.barcode){
+        const itemTotal = tag.quantity * item.price
+        receiptItems.push({
+          barcode: item.barcode,
+          name: item.name,
+          unit: item.unit,
+          unitPrice: item.price,
+          subtotal: itemTotal,
+          discountedPrice: 0,
+          quantity: tag.quantity
+        })
+      }
+    }) 
+  }
+  return receiptItems
+
+}
 
 
 
