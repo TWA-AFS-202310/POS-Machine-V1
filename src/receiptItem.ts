@@ -1,4 +1,5 @@
 export interface ReceiptItem{
+    barcode:string;
     name:string;
     quantity:Quantity;
     unitPrice: number;

@@ -1,6 +1,6 @@
 export interface Item{
     barcode: string,
-      name: string,
-      unit: string,
-      price: number
+    name: string,
+    unit: string,
+    price: number
 }
