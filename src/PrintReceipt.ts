@@ -3,11 +3,8 @@ import {loadAllItems, loadPromotions} from './Dependencies'
 import {ReceiptItem} from './receiptItem'
 import {Tag} from './tag'
 import {Item} from './item'
-import { CONNREFUSED } from 'dns'
-
 
 export class PosMachine{
-
   items = loadAllItems()
   private itemsMap = this.buildItemsMap(this.items)
   private buildItemsMap(items: Item[]): Map<string, Item> {
@@ -55,7 +52,6 @@ export class PosMachine{
     return parts.length > 1 ? parseFloat(parts[1]) : 1
   }
 
-
   private generateReceiptItems(parsedTags: Tag[]): ReceiptItem[] {
     const receiptItem :ReceiptItem[] = []
     const promotions  = loadPromotions()
@@ -99,7 +95,6 @@ export class PosMachine{
     return subtotalPrice
   }
 
-  //
   private renderReceipt(receiptItem: ReceiptItem[]): string {
     let receiptString = '***<store earning no money>Receipt ***\n'
     //const allItem: Item[] = loadAllItems()
