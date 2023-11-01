@@ -2,6 +2,7 @@ import {PosMachine} from '../src/PrintReceipt'
 
 describe('printReceipt', () => {
   it('should print receipt with promotion when print receipt', () => {
+    // given
     const table = new PosMachine()
     const tags = [
       'ITEM000001',
@@ -22,7 +23,9 @@ Name:Instant Noodles,Quantity:3 bags,Unit:4.5(yuan),Subtotal:9(yuan)
 Total:58.5(yuan)
 Discounted prices:7.5(yuan)
 **********************`
-
-    expect(table.printReceipt(tags)).toEqual(expectText)
+    //when
+    const rendered = table.printReceipt(tags)
+    //then
+    expect(rendered).toEqual(expectText)
   })
 })
